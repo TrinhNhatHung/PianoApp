@@ -6,6 +6,7 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Handler;
 import android.util.SparseIntArray;
+import android.widget.Toast;
 
 import com.example.piano.R;
 
@@ -36,7 +37,7 @@ public class SoundManager {
     public void init (Context context){
         this.mContext = context;
         instance.initStreamtypeMedia((Activity) context);
-        instance.addSound(R.raw.a3);
+        instance.addSound(R.raw.c3);
         instance.addSound(R.raw.c4);
         instance.addSound(R.raw.d2);
         instance.addSound(R.raw.d3);
@@ -48,9 +49,9 @@ public class SoundManager {
         instance.addSound(R.raw.g4);
         instance.addSound(R.raw.a3);
         instance.addSound(R.raw.a4);
+        instance.addSound(R.raw.b2);
         instance.addSound(R.raw.b3);
         instance.addSound(R.raw.b4);
-        instance.addSound(R.raw.db4);
         instance.addSound(R.raw.db4);
         instance.addSound(R.raw.eb3);
         instance.addSound(R.raw.eb4);
@@ -73,11 +74,12 @@ public class SoundManager {
         if (mMuted){
             return;
         }
-        boolean hasSound = mSoundPoolMap.indexOfKey(soundID) >= 0 ;
+//        Toast.makeText(mContext,"" + soundID,Toast.LENGTH_SHORT).show();
+        boolean hasSound = mSoundPoolMap.size() > soundID ;
         if (!hasSound){
             return;
         }
-        final int sound = mSoundPool.play(mSoundPoolMap.get(soundID),
+        final int sound = mSoundPool.play(mSoundPoolMap.valueAt(soundID),
                               1,1,1,0,1f);
     }
 

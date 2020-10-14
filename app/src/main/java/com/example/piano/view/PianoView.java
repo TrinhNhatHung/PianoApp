@@ -19,11 +19,11 @@ import java.util.ArrayList;
 
 public class PianoView extends View {
     public static  final int NUMBER_KEYS =14;
-    private Paint black,white,yellow;
-    private ArrayList<Key> whites, blacks;
-    private int keyWidth, keyHeight;
-    private Handler handler;
-    private SoundManager soundManager;
+    protected Paint black,white,yellow;
+    protected ArrayList<Key> whites, blacks;
+    protected int keyWidth, keyHeight;
+    protected Handler handler;
+    protected SoundManager soundManager;
     public PianoView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         soundManager = SoundManager.getInstance();
@@ -87,6 +87,7 @@ public class PianoView extends View {
         for (Key key : blacks){
             canvas.drawRect(key.rectF,key.down? yellow:black);
         }
+        canvas.drawLine(0,0,NUMBER_KEYS * keyWidth,0,black);
     }
 
     @Override
@@ -114,11 +115,13 @@ public class PianoView extends View {
                 float y = event.getY(touchIndex);
                 Key key = keyIsOnTouchEvent(x,y);
                 if (key!=null){
-                    for (Key key1 : tmp ){
-                        if (key.equals(key1)){
-                            key1.down = true;
+                    for (int i = 0; i < tmp.size();i++ ){
+                        if (key.equals(tmp.get(i))){
+                            tmp.get(i).down = true;
+//                            Toast.makeText(getContext(),"abc",Toast.LENGTH_SHORT).show();
+                            soundManager.playSound(i);
                         } else {
-                            key1.down = false;
+                            tmp.get(i).down = false;
                         }
                     }
                 }
@@ -128,7 +131,7 @@ public class PianoView extends View {
         return true;
     }
 
-    private Key keyIsOnTouchEvent (float x, float y){
+    protected Key keyIsOnTouchEvent (float x, float y){
         for (Key key : blacks){
             if (key.rectF.contains(x,y)){
                 return key;
